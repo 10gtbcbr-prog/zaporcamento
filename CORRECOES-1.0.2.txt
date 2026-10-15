@@ -1,0 +1,13 @@
+ZapOrçamento 1.0.2
+
+Copie todo o conteúdo deste ZIP para a pasta do repositório zaporcamento. Aceite substituir. Faça Commit to main e Push origin.
+
+Novo abre o formulário limpo. Alterações ainda não salvas pedem confirmação. O histórico é preservado.
+
+Sem limite contratado ou contador máximo de orçamentos. O armazenamento usa IndexedDB e os dados anteriores são migrados automaticamente ao abrir. O limite prático depende do espaço e dos recursos disponíveis no aparelho. Faça backups. O backup anterior continua compatível.
+
+WhatsApp do cliente abre a conversa do número cadastrado, com mensagem pronta. Enviar PDF compartilha o arquivo, e o WhatsApp pede a escolha do destinatário. O link oficial de conversa não anexa um PDF local. Não foi implementado envio automático de PDF para um número.
+
+O PDF, a imagem do QR Code, o teclado e a gravação do backup permanecem com as correções já testadas por você.
+
+ANTES DE INSTALAR: exporte um backup atualizado e guarde fora do app. O APK ainda é de teste e pode exigir reinstalação por diferença de assinatura. Não desinstale antes de confirmar o backup. A assinatura permanente será preparada na fase de venda.
