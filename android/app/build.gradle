@@ -1,0 +1,9 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'com.belmontapps.zaporcamento'
+ compileSdk 36
+ defaultConfig { applicationId 'com.belmontapps.zaporcamento'; minSdk 24; targetSdk 36; versionCode 1; versionName '1.0.0' }
+ sourceSets { main { assets.srcDirs = ['src/main/assets'] } }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+dependencies { implementation 'androidx.activity:activity:1.10.1'; implementation 'androidx.webkit:webkit:1.14.0'; implementation 'androidx.core:core:1.16.0' }
