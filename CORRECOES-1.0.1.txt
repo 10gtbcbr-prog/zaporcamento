@@ -1,0 +1,18 @@
+ZapOrçamento 1.0.1 - Correções do teste no Android
+
+Copie TODO o conteúdo desta pasta para a pasta do repositório zaporcamento, aceitando substituir os arquivos. Não apague a pasta .git.
+Depois faça Commit to main e Push origin.
+
+Principais correções:
+- Ícones inicializados corretamente; erro técnico que interrompia a prévia removido.
+- Visualizar PDF não salva o orçamento. Salvar continua sendo uma ação separada.
+- Salvar e enviar PDF gera um arquivo para o compartilhamento do Android. Escolha WhatsApp e o destinatário nessa tela.
+- Cabeçalho respeita a barra de status. Teclado reduz a área da página e o campo em foco é trazido para a tela.
+- Logotipo local no cabeçalho e conteúdo adicional útil na tela inicial.
+- Imagem do QR Code Pix pode ser carregada em Ajustes, além da geração por chave. O QR importado pode ter um valor diferente: confira no banco.
+- Mensagens curtas em português com apresentação clara.
+- Backup anterior permanece compatível.
+
+Antes de instalar, exporte e guarde seu backup válido. Por ser APK de teste, se o Android recusar atualizar por diferença de assinatura, não desinstale antes de confirmar que você guardou um backup com seus dados.
+
+A geração no GitHub fará as verificações Android. Teste no aparelho: prévia, salvar PDF, compartilhar arquivo pelo WhatsApp, teclado, QR Code e restauração do backup.

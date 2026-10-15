@@ -35,6 +35,6 @@ jobs:
           ./gradlew lintDebug assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: ZapOrcamento-APK-TESTE-v1.0.0
+          name: ZapOrcamento-APK-TESTE-v1.0.1
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error

@@ -14,7 +14,7 @@
 
   <style>
     button { min-height:44px; } input,textarea,select { font-size:16px!important; } nav button[aria-current="page"] { background:rgba(255,255,255,.22); }
-    #status-aviso {position:fixed;left:16px;right:16px;bottom:24px;z-index:100;background:#0f172a;color:white;padding:16px;border-radius:12px;max-width:520px;margin:auto;}
+    #status-aviso {position:fixed;left:16px;right:16px;bottom:16px;z-index:100;background:#eff6ff;color:#1e3a8a;border:1px solid #bfdbfe;box-shadow:0 6px 24px #1e3a8a18;padding:14px 16px;border-radius:16px;max-width:520px;margin:auto;font-size:14px;} .keyboard-open header > div {display:none;} .keyboard-open nav {padding-top:8px;} input,textarea,select{scroll-margin-top:155px;scroll-margin-bottom:40px;} header h1{font-size:19px;} button:disabled{opacity:.55;}
 
     body {
       -webkit-tap-highlight-color: transparent;
@@ -32,8 +32,8 @@
   <header class="sticky top-0 z-40 bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white shadow-md">
     <div class="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-2">
-        <div class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 backdrop-blur-sm">
-          <i data-lucide="file-check-2" class="w-5 h-5 text-white"></i>
+        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 backdrop-blur-sm">
+          <svg viewBox="0 0 36 36" width="30" height="30" aria-label="ZapOrçamento"><path fill="white" d="M8 3h14l7 7v23H8z"/><path stroke="#2563eb" stroke-width="2.5" fill="none" d="M12 15h13M12 20h9M13 26l3 3 8-8"/></svg>
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight leading-none flex items-center gap-1.5">
@@ -53,7 +53,7 @@
   <!-- Conteúdo Principal -->
   <main class="flex-1 max-w-lg w-full mx-auto p-4">
 
-<section id="tab-inicio" class="space-y-4"><div class="bg-white rounded-2xl p-5 shadow-sm"><h2 class="text-2xl font-bold">Seus serviços, bem apresentados.</h2><p class="text-sm text-slate-600 mt-2">Crie, guarde e acompanhe seus orçamentos em um só lugar.</p><button onclick="novoOrcamento()" class="mt-4 w-full rounded-xl bg-blue-600 text-white p-3 font-bold">Criar orçamento</button><button onclick="switchTab('historico')" class="mt-2 w-full rounded-xl bg-blue-50 text-blue-700 p-3 font-bold">Ver orçamentos criados</button></div><div id="resumo-inicio" class="bg-white rounded-2xl p-5 text-sm"></div><p class="text-xs text-slate-500">Seus dados ficam neste aparelho. Faça backup regularmente. O controle funciona offline; o WhatsApp precisa de internet.</p></section>    <!-- ABA 1: NOVO ORÇAMENTO -->
+<section id="tab-inicio" class="space-y-4"><div class="bg-white rounded-2xl p-5 shadow-sm"><h2 class="text-2xl font-bold">Seus serviços, bem apresentados.</h2><p class="text-sm text-slate-600 mt-2">Crie, guarde e acompanhe seus orçamentos em um só lugar.</p><button onclick="novoOrcamento()" class="mt-4 w-full rounded-xl bg-blue-600 text-white p-3 font-bold">Criar orçamento</button><button onclick="switchTab('historico')" class="mt-2 w-full rounded-xl bg-blue-50 text-blue-700 p-3 font-bold">Ver orçamentos criados</button></div><div id="resumo-inicio" class="bg-white rounded-2xl p-5 text-sm"></div><div class="bg-white rounded-2xl p-5 space-y-3"><h3 class="font-bold">Seu próximo orçamento em poucos passos</h3><p class="text-sm text-slate-600">1. Confira seus dados em Ajustes.<br>2. Preencha cliente, serviços e valores.<br>3. Visualize o documento e compartilhe o PDF.</p><button onclick="switchTab('empresa')" class="w-full rounded-xl bg-slate-100 text-blue-700 p-3 font-bold">Empresa, Pix e backup</button></div><p class="text-xs text-slate-500">Seus dados ficam neste aparelho. Faça backup regularmente. O controle funciona offline; o WhatsApp precisa de internet.</p></section>    <!-- ABA 1: NOVO ORÇAMENTO -->
     <section id="tab-novo" class="space-y-4 hidden">
       
       <!-- Aviso de Logo -->
@@ -159,12 +159,12 @@
       <div class="space-y-2 pt-2">
         <button onclick="salvarEEnviarWhatsApp()" type="button" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg flex items-center justify-center gap-2 text-base transition">
           <i data-lucide="send" class="w-5 h-5"></i>
-          Enviar Orçamento no WhatsApp
+          Salvar e enviar PDF
         </button>
 
         <div class="grid grid-cols-2 gap-2">
           <button onclick="visualizarPDF()" type="button" class="py-2.5 bg-white border border-slate-300 text-slate-700 font-bold rounded-xl flex items-center justify-center gap-1.5 text-xs">
-            <i data-lucide="eye" class="w-4 h-4 text-blue-600"></i> Visualizar / PDF
+            <i data-lucide="eye" class="w-4 h-4 text-blue-600"></i> Visualizar PDF
           </button>
           <button onclick="salvarOrcamentoManual()" type="button" class="py-2.5 bg-blue-50 border border-blue-200 text-blue-700 font-bold rounded-xl flex items-center justify-center gap-1.5 text-xs">
             <i data-lucide="save" class="w-4 h-4"></i> Salvar Orçamento
@@ -255,13 +255,13 @@
           </div>
         </div>
 
-        <button onclick="salvarConfiguracoesEmpresa()" type="button" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl text-sm">
+<div class="rounded-2xl border border-blue-100 bg-blue-50 p-3 space-y-3"><h3 class="font-bold text-sm">QR Code Pix no orçamento</h3><select id="empresa-pix-modo" class="w-full p-3 rounded-xl"><option value="gerado">Gerar a partir da chave Pix</option><option value="imagem">Usar imagem do meu banco</option></select><p class="text-xs text-slate-600">Você pode gerar pelo app ou enviar uma imagem do QR Code recebido no seu banco. Na imagem do banco, o valor pode estar fixo ou ficar livre: confira antes de usar.</p><label class="block text-center bg-white text-blue-700 rounded-xl p-3 font-bold cursor-pointer">Escolher imagem do QR Code<input type="file" accept="image/png,image/jpeg,image/webp" class="hidden" onchange="uploadQrPix(event)"></label><img id="empresa-qr-preview" alt="QR Code Pix da empresa" class="hidden mx-auto rounded-xl bg-white" style="max-width:180px;max-height:180px;object-fit:contain"><button type="button" onclick="removerQrPix()" class="text-red-700 text-sm">Remover imagem do QR Code</button></div>        <button onclick="salvarConfiguracoesEmpresa()" type="button" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl text-sm">
           Salvar Dados da Minha Empresa
         </button>
       </div>
 
 <div class="bg-white rounded-2xl p-4 border border-slate-200 space-y-3"><h2 class="font-bold">Cópia de segurança</h2><p class="text-sm">Guarde o arquivo fora do aplicativo para recuperar empresa, logotipo e orçamentos.</p><button onclick="exportarBackup()" class="w-full bg-blue-600 text-white p-3 rounded-xl font-bold">Exportar backup</button><label class="block text-center p-3 bg-slate-100 rounded-xl font-bold cursor-pointer">Restaurar backup<input type="file" accept="application/json,.json" class="hidden" onchange="restaurarBackup(event)"></label><p id="ultimo-backup" class="text-xs text-slate-500"></p></div><p class="text-xs text-slate-500 p-3">Ao informar uma chave Pix válida e a cidade, o QR Code é incluído no PDF com o total do orçamento. Confira o recebedor no banco. O app não confirma pagamentos automaticamente.</p>      <div class="text-center py-4 text-xs text-slate-400">
-        <p class="font-bold text-slate-600">ZapOrçamento v1.0.0 Pro</p>
+        <p class="font-bold text-slate-600">ZapOrçamento v1.0.1 Pro</p>
         <p>Desenvolvido por <span class="font-semibold text-blue-600">Belmont Apps</span></p>
         <p class="text-[10px]">© 2026 Belmont Apps - Todos os direitos reservados.</p>
       </div>
@@ -348,7 +348,7 @@
             <div id="pdf-box-pix" class="bg-white p-2 rounded-lg border border-blue-100 flex items-center justify-between mt-1">
               <div>
                 <span class="text-[9px] font-bold text-slate-400 uppercase block">Chave Pix</span>
-                <span id="pdf-chave-pix" class="font-bold text-slate-800 text-xs"></span><div id="pdf-pix-qr" style="display:flex;align-items:center;gap:12px;margin-top:10px"><img id="pdf-qr-image" alt="QR Code Pix" style="width:112px;height:112px;image-rendering:pixelated"><span style="font-size:10px;max-width:220px">Pague pelo QR Code Pix.<br>Confira o valor e o recebedor no aplicativo do seu banco.</span></div>
+                <span id="pdf-chave-pix" class="font-bold text-slate-800 text-xs"></span><div id="pdf-pix-qr" style="display:flex;align-items:center;gap:12px;margin-top:10px"><img id="pdf-qr-image" alt="QR Code Pix" style="width:112px;height:112px;image-rendering:pixelated"><span id="pdf-qr-legenda" style="font-size:10px;max-width:220px">Pague pelo QR Code Pix.<br>Confira o valor e o recebedor no aplicativo do seu banco.</span></div>
               </div>
               <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PIX</span>
             </div>
@@ -380,16 +380,16 @@
       </div>
 
       <div class="p-3 bg-white border-t border-slate-200 grid grid-cols-2 gap-2 shrink-0">
-        <button onclick="baixarPDF()" type="button" class="py-3 bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+        <button onclick="baixarPDF()" data-export type="button" class="py-3 bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
           <i data-lucide="download" class="w-4 h-4"></i> Baixar PDF
         </button>
-        <button onclick="baixarPDF('share')" type="button" class="py-3 bg-emerald-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
-          <i data-lucide="send" class="w-4 h-4"></i> Enviar no WhatsApp
+        <button onclick="baixarPDF('share')" data-export type="button" class="py-3 bg-emerald-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          <i data-lucide="send" class="w-4 h-4"></i> Compartilhar PDF
         </button>
       </div>
     </div>
   </div>
 
 <script type="module" src="/app.js"></script>
-<div id="status-aviso" role="status" class="hidden"></div></body>
+<div id="status-aviso" role="status" aria-live="polite" class="hidden"></div></body>
 </html>

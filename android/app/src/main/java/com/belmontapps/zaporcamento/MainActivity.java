@@ -29,8 +29,16 @@ public class MainActivity extends ComponentActivity {
  private final ActivityResultLauncher<Intent> chooseFile=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result->{if(fileCallback!=null){fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(result.getResultCode(),result.getData()));fileCallback=null;}});
  @Override public void onCreate(Bundle state){super.onCreate(state);
   if(state!=null){pendingId=state.getString("pendingId");String path=state.getString("pendingPath");if(path!=null)pending=new File(path);}
-  web=new WebView(this);web.setBackgroundColor(0xfff1f5f9);setContentView(web);WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
-  ViewCompat.setOnApplyWindowInsetsListener(web,(v,insets)->{androidx.core.graphics.Insets x=insets.getInsets(WindowInsetsCompat.Type.systemBars()|WindowInsetsCompat.Type.ime());v.setPadding(x.left,x.top,x.right,x.bottom);return WindowInsetsCompat.CONSUMED;});
+  android.widget.FrameLayout root=new android.widget.FrameLayout(this);root.setBackgroundColor(0xfff1f5f9);
+  web=new WebView(this);web.setBackgroundColor(0xfff1f5f9);root.addView(web,new android.widget.FrameLayout.LayoutParams(-1,-1));setContentView(root);WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
+  ViewCompat.setOnApplyWindowInsetsListener(root,(v,insets)->{
+   androidx.core.graphics.Insets bars=insets.getInsets(WindowInsetsCompat.Type.systemBars());
+   androidx.core.graphics.Insets ime=insets.getInsets(WindowInsetsCompat.Type.ime());
+   v.setPadding(bars.left,bars.top,bars.right,Math.max(bars.bottom,ime.bottom));
+   boolean visible=insets.isVisible(WindowInsetsCompat.Type.ime());
+   web.post(()->web.evaluateJavascript("window.ajustarTeclado && window.ajustarTeclado("+visible+")",null));
+   return WindowInsetsCompat.CONSUMED;
+  });ViewCompat.requestApplyInsets(root);
   WebSettings settings=web.getSettings();settings.setJavaScriptEnabled(true);settings.setDomStorageEnabled(true);settings.setAllowFileAccess(false);settings.setAllowContentAccess(true);settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
   WebViewAssetLoader assets=new WebViewAssetLoader.Builder().addPathHandler("/assets/",new WebViewAssetLoader.AssetsPathHandler(this)).build();
   web.setWebViewClient(new WebViewClient(){@Override public WebResourceResponse shouldInterceptRequest(WebView v,WebResourceRequest r){return assets.shouldInterceptRequest(r.getUrl());}@Override public boolean shouldOverrideUrlLoading(WebView v,WebResourceRequest r){Uri u=r.getUrl();if("appassets.androidplatform.net".equals(u.getHost()))return false;if("https".equals(u.getScheme())&&"wa.me".equals(u.getHost()))openWhatsAppExternal(u.toString());return true;}});
