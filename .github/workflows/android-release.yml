@@ -1,0 +1,65 @@
+name: Gerar APK de venda assinado
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Preparar arquivos offline
+        run: |
+          mkdir -p android/app/src/main/assets/www
+          cp -R dist/. android/app/src/main/assets/www/
+      - name: Preparar assinatura privada
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          python3 - <<'PYCODE'
+          import os, base64
+          from pathlib import Path
+          required=['KEYSTORE_BASE64','KEYSTORE_PASSWORD','KEY_PASSWORD','KEY_ALIAS']
+          missing=[k for k in required if not os.environ.get(k,'').strip()]
+          if missing: raise SystemExit('Cadastre os secrets: '+', '.join(missing))
+          key=Path(os.environ['RUNNER_TEMP'])/'zaporcamento-release.jks'
+          key.write_bytes(base64.b64decode(os.environ['KEYSTORE_BASE64'].strip(),validate=True))
+          key.chmod(0o600)
+          with open(os.environ['GITHUB_ENV'],'a') as out: out.write('ANDROID_KEYSTORE_PATH='+str(key)+'\n')
+          PYCODE
+      - name: Gerar e verificar APK de venda
+        working-directory: android
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          chmod +x gradlew
+          ./gradlew lintRelease assembleRelease --no-daemon
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose app/build/outputs/apk/release/app-release.apk
+          cp app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/ZapOrcamento-v1.0.2.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ZapOrcamento-APK-VENDA-v1.0.2
+          path: android/app/build/outputs/apk/release/ZapOrcamento-v1.0.2.apk
+          if-no-files-found: error
+      - name: Remover chave temporária
+        if: always()
+        run: rm -f "$RUNNER_TEMP/zaporcamento-release.jks"

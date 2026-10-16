@@ -3,6 +3,18 @@ android {
  namespace 'com.belmontapps.zaporcamento'
  compileSdk 36
  defaultConfig { applicationId 'com.belmontapps.zaporcamento'; minSdk 24; targetSdk 36; versionCode 3; versionName '1.0.2' }
+ signingConfigs {
+  release {
+   def signingFile = System.getenv('ANDROID_KEYSTORE_PATH')
+   if (signingFile) {
+    storeFile file(signingFile)
+    storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')
+    keyAlias System.getenv('ANDROID_KEY_ALIAS')
+    keyPassword System.getenv('ANDROID_KEY_PASSWORD')
+   }
+  }
+ }
+ buildTypes { release { signingConfig signingConfigs.release; minifyEnabled false } }
  sourceSets { main { assets.srcDirs = ['src/main/assets'] } }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
 }
