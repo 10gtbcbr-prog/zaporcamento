@@ -1,0 +1,62 @@
+ZAPORÇAMENTO 1.1.0 - PARCELAMENTO E FINANCEIRO
+
+ANTES DE TUDO
+Exporte e confira um backup no aplicativo atual. Não desinstale.
+Esta atualização mantém o identificador do app e a assinatura permanente já configurada.
+Não altere nem recrie os quatro secrets ou o kit de assinatura.
+
+COPIAR PARA O GITHUB DESKTOP
+Abra a pasta extraída deste pacote e copie TODO O CONTEÚDO para a pasta local do repositório zaporcamento.
+Mescle as pastas .github, android e tests com as existentes; confirme a substituição dos arquivos.
+Não apague a pasta do projeto nem substitua o repositório por uma pasta vazia.
+O pacote é uma atualização dos fontes, NÃO um instalador APK.
+
+GERAR O INSTALADOR CORRETO
+Faça Commit e Push origin no GitHub Desktop.
+No navegador: Actions > Gerar APK de venda assinado > Run workflow > main > Run workflow.
+Use o resultado assinado ZapOrcamento-APK-VENDA-v1.1.0.
+Dentro do ZIP gerado, o arquivo será ZapOrcamento-v1.1.0.apk.
+Não instale o APK-TESTE: ele usa outra assinatura e pode dar conflito.
+Com a mesma chave permanente e o mesmo aplicativo, a instalação deve oferecer Atualizar.
+Se houver conflito, não desinstale por tentativa; confirme o arquivo e a assinatura.
+
+NOVIDADES
+- Menus superiores: Início, Novo, Orçamentos, Financeiro, Ajustes.
+- Painel: Total a receber, Atrasados, Recebido no mês, A receber no mês.
+- Entrada opcional e até 24 parcelas do saldo; intervalos mensal, semanal ou a cada 15 dias.
+- Datas e valores ajustáveis na prévia; diferenças de centavos na última parcela.
+- Entrada não é marcada como recebida automaticamente.
+- Somente serviços Aprovados ou Concluídos com plano definido entram no financeiro.
+- Recebimentos integrais ou parciais, com data e forma, histórico e opção de desfazer.
+- Cobrança pelo WhatsApp e PDF com QR Code Pix gerado no saldo da parcela.
+- Na cobrança, o Pix e os dados do negócio usam os Ajustes atuais.
+- QR do banco em imagem não é reutilizado em parcelas, pois pode ter outro valor fixado.
+- O PDF de orçamento mantém seu layout e inclui a relação de parcelas.
+- O QR do PDF do orçamento continua sendo do total (ou a imagem enviada); solicite a cobrança da parcela para valor específico.
+- Serviços diferentes permanecem separados; os saldos são somados no painel.
+- Sem juros ou multas automáticos, sem confirmação bancária e sem envio automático em segundo plano.
+
+DADOS E BACKUPS
+Os backups antigos continuam aceitos. Não são inventadas parcelas nem datas para os registros antigos.
+Para incluí-los no financeiro, edite o orçamento, marque Definir parcelas, gere a prévia, confira e salve; aprove o serviço.
+O novo backup tem formato versão 2 e inclui as parcelas e recebimentos. Ele precisa desta versão ou de uma posterior compatível para restaurar.
+Antes de limpar dados, desinstalar ou trocar o celular, exporte uma cópia e guarde fora do aparelho.
+Após recebimentos, o parcelamento fica protegido para não apagar o histórico. Desfaça os pagamentos antes de corrigir valores ou retirar o serviço do financeiro.
+Excluir um orçamento com financeiro pede confirmação específica e também remove seus recebimentos dos totais.
+
+CONFERÊNCIA NO CELULAR
+1. Confira se os orçamentos antigos e dados da empresa continuam no aparelho após Atualizar.
+2. Crie um orçamento de R$ 1.000,00 com R$ 200,00 de entrada e 4 parcelas de R$ 200,00.
+3. Veja o PDF e confira as datas. Salve. Enquanto Pendente, o painel não deve somar a dívida.
+4. Mude para Aprovado: o total a receber deve somar R$ 1.000,00.
+5. No Financeiro, registre R$ 100,00 na entrada: saldo total R$ 900,00; saldo da entrada R$ 100,00.
+6. Gere o PDF de cobrança da entrada. Confira que o QR gerado tem R$ 100,00, não R$ 1.000,00.
+7. Confira a conversa e compartilhe o PDF para um contato de teste.
+8. Desfaça o recebimento e confira o retorno dos saldos.
+9. Quite as parcelas, confira o painel e o histórico em Pagas.
+10. Exporte e restaure um backup novo; confira parcelas e pagamentos.
+
+VERIFICAÇÃO LOCAL
+29 testes automatizados passaram (cálculos, datas, pagamentos, backup, interface simulada e exportação).
+Build web de produção concluído. A compilação Android será executada no GitHub Actions.
+PDFs, compartilhamento real, teclado e instalação ainda precisam da conferência no celular.

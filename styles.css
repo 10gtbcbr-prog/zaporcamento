@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Financeiro: navegação sempre superior; diálogos respeitam o viewport do teclado. */
+nav button { font-size:11px; overflow-wrap:normal; }
+.fin-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;}
+.fin-input{width:100%;min-height:48px;border:1px solid #cbd5e1;background:#f8fafc;border-radius:10px;padding:10px;margin-top:5px;}
+.fin-grid,.fin-stats,.fin-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.fin-button{border-radius:12px;min-height:46px;background:#eff6ff;color:#1d4ed8;padding:10px 12px;font-weight:700;text-align:center;}
+.fin-primary{background:#2563eb;color:white;}.fin-note{padding:12px;border-radius:12px;background:#fffbeb;color:#92400e;font-size:13px;}
+.fin-stat{background:white;border:1px solid #dbeafe;border-radius:16px;padding:14px;overflow-wrap:anywhere;}.fin-stat span{display:block;font-size:13px;line-height:1.4;}.fin-stat strong{display:block;font-size:20px;margin-top:8px;}.fin-danger{background:#fef2f2;color:#b91c1c;border-color:#fecaca;}
+.fin-overlay{position:fixed;inset:0;z-index:65;background:#0f172a99;padding:12px;display:flex;align-items:center;justify-content:center;}.fin-overlay.hidden{display:none;}
+.fin-dialog{background:white;border-radius:20px;padding:18px;width:100%;max-width:560px;max-height:88vh;max-height:88dvh;overflow-y:auto;display:grid;gap:16px;}.fin-pdf-dialog{max-width:680px;}.fin-dialog label{display:block;}
+.fin-badge{display:inline-block;border-radius:9px;padding:5px 9px;font-size:13px;font-weight:bold;}.fin-badge-red{background:#fee2e2;color:#991b1b;}.fin-badge-green{background:#dcfce7;color:#166534;}.fin-badge-blue{background:#dbeafe;color:#1e40af;}.fin-badge-amber{background:#fef3c7;color:#92400e;}
+.charge-print{background:white;color:#1e293b;padding:20px;border:1px solid #e2e8f0;font-size:12px;line-height:1.6;}.charge-print h1{font-size:21px;font-weight:800;color:#1d4ed8;margin:16px 0 8px;}.charge-head{display:flex;justify-content:space-between;border-bottom:2px solid #2563eb;padding-bottom:14px;}.charge-head h2{font-size:17px;font-weight:800;}.charge-logo{width:85px;max-height:65px;object-fit:contain;}.charge-box{margin:16px 0;background:#eff6ff;border-radius:12px;padding:12px;}.charge-print table{width:100%;}.charge-print td{padding:8px 0;border-bottom:1px solid #e2e8f0;}.charge-print td:last-child{text-align:right;}.charge-total{font-weight:800;color:#1d4ed8;font-size:16px;}.charge-key{overflow-wrap:anywhere;}.charge-qr{width:138px;height:138px;margin:12px 0;}.charge-print footer{margin-top:18px;color:#64748b;border-top:1px solid #e2e8f0;padding-top:12px;font-size:10px;}
+.charge-schedule{font-size:11px;}.charge-schedule h3{font-weight:700;color:#1d4ed8;margin-bottom:6px;}.charge-schedule td,.charge-schedule th{padding:6px;border-bottom:1px solid #e2e8f0;}.charge-schedule p{font-size:10px;color:#64748b;margin-top:6px;}
+@media(max-width:360px){nav button{font-size:10px;}.fin-stat strong{font-size:17px;}.fin-actions{grid-template-columns:1fr;}}
+#pdf-printable tr,.charge-print tr,.charge-schedule tr{break-inside:avoid;page-break-inside:avoid;}
+.fin-draft-row label{font-size:13px;}

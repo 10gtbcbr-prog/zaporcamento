@@ -54,11 +54,11 @@ jobs:
           chmod +x gradlew
           ./gradlew lintRelease assembleRelease --no-daemon
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose app/build/outputs/apk/release/app-release.apk
-          cp app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/ZapOrcamento-v1.0.2.apk
+          cp app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/ZapOrcamento-v1.1.0.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: ZapOrcamento-APK-VENDA-v1.0.2
-          path: android/app/build/outputs/apk/release/ZapOrcamento-v1.0.2.apk
+          name: ZapOrcamento-APK-VENDA-v1.1.0
+          path: android/app/build/outputs/apk/release/ZapOrcamento-v1.1.0.apk
           if-no-files-found: error
       - name: Remover chave temporária
         if: always()

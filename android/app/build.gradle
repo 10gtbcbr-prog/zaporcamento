@@ -2,7 +2,7 @@ plugins { id 'com.android.application' }
 android {
  namespace 'com.belmontapps.zaporcamento'
  compileSdk 36
- defaultConfig { applicationId 'com.belmontapps.zaporcamento'; minSdk 24; targetSdk 36; versionCode 3; versionName '1.0.2' }
+ defaultConfig { applicationId 'com.belmontapps.zaporcamento'; minSdk 24; targetSdk 36; versionCode 4; versionName '1.1.0' }
  signingConfigs {
   release {
    def signingFile = System.getenv('ANDROID_KEYSTORE_PATH')
