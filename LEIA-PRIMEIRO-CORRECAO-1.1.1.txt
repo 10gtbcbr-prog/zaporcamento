@@ -1,0 +1,32 @@
+ZAPORÇAMENTO 1.1.1 - PAGAMENTO ÚNICO NO FINANCEIRO
+
+CORREÇÕES
+- Pagamentos únicos entram no Total a receber após aprovação, sem obrigar parcelamento.
+- No formulário, deixe Parcelar este serviço desmarcado e escolha o vencimento do pagamento único.
+- O vencimento é usado em A receber no mês e Atrasados.
+- Pagamentos únicos aparecem na busca do Financeiro e permitem cobrança, PDF com Pix, recebimento parcial/integral e desfazer.
+- A busca aceita nomes sem acento e espaços extras.
+- Parcelas e pagamentos já registrados são preservados.
+
+ORÇAMENTOS QUE JÁ EXISTEM
+Na atualização, orçamentos de valor positivo sem parcelamento recebem um pagamento único, sem duplicar os registros.
+Se já estiverem aprovados/concluídos, seus saldos passam a contar no Total a receber.
+Como a versão anterior não guardava a data do pagamento único, o vencimento fica A definir.
+Esses registros não são considerados atrasados nem incluídos em um mês arbitrário.
+Edite cada um, escolha o vencimento no calendário e salve para completar os quadros mensais.
+Não há criação automática de recebimentos.
+
+INSTALAÇÃO DOS FONTES
+Abra a pasta extraída e copie TODO O CONTEÚDO para a pasta local do repositório zaporcamento.
+Mescle as pastas e confirme Substituir arquivos no destino. Não apague o repositório.
+Faça Commit e Push origin no GitHub Desktop.
+No navegador: Actions > Gerar APK de venda assinado > Run workflow > main > Run workflow.
+Baixe ZapOrcamento-APK-VENDA-v1.1.1 e extraia ZapOrcamento-v1.1.1.apk.
+Não use o APK de teste automático. Não altere os secrets nem o kit de assinatura.
+Antes de atualizar o celular, exporte e confira um backup atual.
+Instale como Atualizar por cima da versão atual, sem desinstalar.
+
+TESTES
+32 testes automatizados passaram e o build web foi concluído.
+Os testes cobrem a soma R$ 4.750 + R$ 550 = R$ 5.300, vencimentos, busca, pagamento parcial, migração e backup.
+A compilação Android acontece no GitHub Actions. Depois confira os resultados no celular.

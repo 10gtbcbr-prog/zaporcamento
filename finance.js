@@ -29,6 +29,18 @@ const inteiro=v=>Number.isSafeInteger(v)&&v>0&&v<=LIMITE;
 export function pago(p){return p.pagamentos.reduce((s,x)=>s+x.valor,0);}
 export function saldo(p){return p.valor-pago(p);}
 export function temPagamentos(o){return !!o?.financeiro?.parcelas.some(p=>p.pagamentos.length);}
+export function pagamentoUnico(f){return !!f&&f.parcelas.length===1&&f.parcelas[0].tipo==='parcela';}
+export function normalizarBusca(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');}
+// Registros antigos não possuem vencimento: incluir a dívida sem inventar mês ou atraso.
+export function migrarPagamentosUnicos(estado){
+  let changed=false;
+  const orcamentos=estado.orcamentos.map(o=>{
+    if(o.financeiro||o.total<=0)return o;
+    changed=true;
+    return {...o,financeiro:{schema:1,modo:'unico',parcelas:[{id:'unico-'+o.id,numero:1,tipo:'parcela',data:null,valor:Math.round(o.total*100),pagamentos:[],ultimaCobranca:null}]}};
+  });
+  return {estado:changed?{...estado,orcamentos}:estado,changed};
+}
 export function gerarPlano({total,entrada=0,quantidade=1,primeiraData,dataEntrada=hojeLocal(),intervalo='mensal',idPrefix='p'}) {
   if(!inteiro(total)||!Number.isSafeInteger(entrada)||entrada<0||entrada>total)throw Error('Confira o total e a entrada.');
   if(!Number.isInteger(quantidade)||quantidade<1||quantidade>24)throw Error('Escolha de 1 a 24 parcelas.');
@@ -42,10 +54,12 @@ export function gerarPlano({total,entrada=0,quantidade=1,primeiraData,dataEntrad
 }
 export function validarFinanceiro(f,total) {
   if(f==null)return true;
-  if(!f||f.schema!==1||!Array.isArray(f.parcelas)||!f.parcelas.length||f.parcelas.length>25)return false;
+  if(!f||f.schema!==1||!Array.isArray(f.parcelas)||!f.parcelas.length||f.parcelas.length>25||(f.modo!=null&&!['unico','parcelado'].includes(f.modo)))return false;
+  if(f.modo==='unico'&&!pagamentoUnico(f))return false;
   const ids=new Set(),paymentIds=new Set();let sum=0,entries=0,n=0;
   for(const p of f.parcelas){
-    if(!p||typeof p.id!=='string'||!p.id||p.id.length>120||ids.has(p.id)||!inteiro(p.valor)||!dataValida(p.data)||!['entrada','parcela'].includes(p.tipo)||!Array.isArray(p.pagamentos)||!Number.isInteger(p.numero)||p.numero!==(p.tipo==='entrada'?0:++n)|| (p.ultimaCobranca!=null&&!dataValida(p.ultimaCobranca)))return false;
+    const undatedSingle=p?.data===null&&f.modo==='unico'&&pagamentoUnico(f);
+    if(!p||typeof p.id!=='string'||!p.id||p.id.length>120||ids.has(p.id)||!inteiro(p.valor)||(!dataValida(p.data)&&!undatedSingle)||!['entrada','parcela'].includes(p.tipo)||!Array.isArray(p.pagamentos)||!Number.isInteger(p.numero)||p.numero!==(p.tipo==='entrada'?0:++n)|| (p.ultimaCobranca!=null&&!dataValida(p.ultimaCobranca)))return false;
     ids.add(p.id);if(p.tipo==='entrada'&&++entries>1)return false;
     let received=0;
     for(const r of p.pagamentos){if(!r||typeof r.id!=='string'||!r.id||r.id.length>120||paymentIds.has(r.id)||!inteiro(r.valor)||!dataValida(r.data)||!FORMAS.includes(r.forma))return false;paymentIds.add(r.id);received+=r.valor;}
@@ -55,6 +69,7 @@ export function validarFinanceiro(f,total) {
 }
 export function situacao(p,hoje=hojeLocal()) {
   if(!saldo(p))return 'Pago';
+  if(!dataValida(p.data))return 'Vencimento a definir';
   return p.data<hoje?'Atrasada':p.data===hoje?'Vence hoje':'A vencer';
 }
 export function registrarPagamento(f,parcelaId,{id,data,valor,forma},hoje=hojeLocal()) {
@@ -70,7 +85,7 @@ export function desfazerPagamento(f,parcelaId,pagamentoId) {
 }
 export function resumoFinanceiro(orcamentos,hoje=hojeLocal()) {
   const mes=hoje.slice(0,7);const r={total:0,atrasados:0,recebidoMes:0,receberMes:0,semPlano:0,quantidadeAtrasada:0};
-  for(const o of orcamentos){if(!ATIVOS.includes(o.status))continue;if(!o.financeiro){r.semPlano++;continue;}
-    for(const p of o.financeiro.parcelas){const s=saldo(p);r.total+=s;if(s&&p.data<hoje){r.atrasados+=s;r.quantidadeAtrasada++;}if(p.data.slice(0,7)===mes)r.receberMes+=s;for(const x of p.pagamentos)if(x.data.slice(0,7)===mes)r.recebidoMes+=x.valor;}
+  for(const o of orcamentos){if(!ATIVOS.includes(o.status))continue;if(!o.financeiro){if(o.total>0){r.semPlano++;r.total+=Math.round(o.total*100);}continue;}
+    for(const p of o.financeiro.parcelas){const s=saldo(p);r.total+=s;if(s&&!dataValida(p.data))r.semPlano++;if(s&&dataValida(p.data)&&p.data<hoje){r.atrasados+=s;r.quantidadeAtrasada++;}if(dataValida(p.data)&&p.data.slice(0,7)===mes)r.receberMes+=s;for(const x of p.pagamentos)if(x.data.slice(0,7)===mes)r.recebidoMes+=x.valor;}
   }return r;
 }
